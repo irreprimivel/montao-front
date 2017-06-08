@@ -1,7 +1,7 @@
 import { getCookie } from '../utils/cookie';
 import * as constants from '../constants/messageConstants';
 
-export const getMessages = (communityTitle, channelTitle, startRowPosition) => {
+export const getMessages = (channelId, page, limit) => {
   return (dispatch) => {
     dispatch({
       type: constants.GET_MESSAGES_REQUEST
@@ -12,9 +12,9 @@ export const getMessages = (communityTitle, channelTitle, startRowPosition) => {
     headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
 
     const query = [
-      `communityTitle=${communityTitle}`,
-      `channelTitle=${channelTitle}`,
-      `startRowPosition=${startRowPosition}`
+      `cid=${channelId}`,
+      `p=${page}`,
+      `l=${limit}`
     ].join('&');
 
     const request = new Request(`/api/messages?${query}`, {
@@ -25,68 +25,33 @@ export const getMessages = (communityTitle, channelTitle, startRowPosition) => {
 
     return fetch(request)
       .then(response => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           const error = new Error(response.statusText);
           error.response = response;
           throw error;
         }
-        return response.json();
+        return response;
       })
-      .then(messages => {
+      .then(response => {
+        const count = response.headers.get('X-Pagination-Count');
+        const page = response.headers.get('X-Pagination-Page');
+        const limit = response.headers.get('X-Pagination-Limit');
         dispatch({
           type: constants.GET_MESSAGES_SUCCESS,
-          payload: messages
+          payload: {
+            paging: {
+              totalCount: count,
+              page: page,
+              limit: limit,
+              totalPagesCount: Math.ceil(count / limit)
+            },
+            messages: response.json()
+          }
         });
       })
       .catch(error => {
         dispatch({
           type: constants.GET_MESSAGES_FAILURE,
-          payload: error
-        });
-      });
-  };
-};
-
-export const getOldestMessages = (communityTitle, channelTitle, startRowPosition) => {
-  return (dispatch) => {
-    dispatch({
-      type: constants.GET_OLDEST_MESSAGES_REQUEST
-    });
-
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
-
-    const query = [
-      `communityTitle=${communityTitle}`,
-      `channelTitle=${channelTitle}`,
-      `startRowPosition=${startRowPosition}`
-    ].join('&');
-
-    const request = new Request(`/api/messages?${query}`, {
-      method: 'GET',
-      headers: headers,
-      credentials: 'same-origin'
-    });
-
-    return fetch(request)
-      .then(response => {
-        if (response.status != 200) {
-          const error = new Error(response.statusText);
-          error.response = response;
-          throw error;
-        }
-        return response.json();
-      })
-      .then(messages => {
-        dispatch({
-          type: constants.GET_OLDEST_MESSAGES_SUCCESS,
-          payload: messages
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: constants.GET_OLDEST_MESSAGES_FAILURE,
           payload: error
         });
       });
@@ -102,7 +67,7 @@ export const getMessage = (message) => {
   };
 };
 
-export const sendMessage = (communityTitle, channelTitle, message) => {
+export const sendMessage = (message) => {
   return (dispatch) => {
     dispatch({
       type: constants.SEND_MESSAGE_REQUEST
@@ -114,14 +79,14 @@ export const sendMessage = (communityTitle, channelTitle, message) => {
 
     const request = new Request('/api/messages', {
       method: 'POST',
-      body: `text=${message}&communityTitle=${communityTitle}&channelTitle=${channelTitle}`,
+      body: JSON.stringify(message),
       headers: headers,
       credentials: 'same-origin'
     });
 
     return fetch(request)
       .then(response => {
-        if (response.status != 201) {
+        if (response.status !== 201) {
           const error = new Error(response.statusText);
           error.response = response;
           throw error;
