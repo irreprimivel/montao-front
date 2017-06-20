@@ -16,8 +16,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMessages: bindActionCreators(messageActions.getMessages, dispatch),
-    getOldestMessages: bindActionCreators(messageActions.getOldestMessages, dispatch)
+    getMessages: bindActionCreators(messageActions.getMessages, dispatch)
   };
 };
 

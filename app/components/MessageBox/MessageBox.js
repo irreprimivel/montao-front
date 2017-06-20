@@ -14,14 +14,14 @@ export default class MessageBox extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getMessages(this.props.community, this.props.channel, 0);
+    this.props.getMessages(this.props.channel, 0, 40);
   }
 
   componentWillReceiveProps(nextProps) {
     // When channel changed
     if (this.props.channel !== nextProps.channel) {
       // Get messages
-      this.props.getMessages(this.props.community, nextProps.channel, 0);
+      this.props.getMessages(nextProps.channel, 0, 40);
     }
   }
 
@@ -42,7 +42,7 @@ export default class MessageBox extends React.Component {
       this.setState({ scrollHeight: this.node.scrollHeight });
 
       // Get oldest messages
-      this.props.getOldestMessages(this.props.community, this.props.channel, this.props.startRowPosition);
+      this.props.getMessages(this.props.channel, this.props.startRowPosition);
     }
   };
 

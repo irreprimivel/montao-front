@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkCommunityExistence: bindActionCreators(communityActions.checkCommunity, dispatch),
+    checkCommunityExistence: bindActionCreators(communityActions.getCommunity, dispatch),
     channelListDialogActions: {
       show: bindActionCreators(viewActions.showChannelListDialog, dispatch),
       hide: bindActionCreators(viewActions.hideChannelListDialog, dispatch)
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
       show: bindActionCreators(viewActions.showUserListDialog, dispatch),
       hide: bindActionCreators(viewActions.hideUserListDialog, dispatch)
     },
-    getUsers: bindActionCreators(userActions.getUsers, dispatch)
+    getUsers: bindActionCreators(userActions.getUsersByCommunity, dispatch)
   };
 };
 

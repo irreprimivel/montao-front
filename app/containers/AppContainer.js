@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as userActions from '../actions/UserActions';
+import * as authActions from '../actions/AuthActions';
 
 import App from '../components/App';
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkAuthorization: bindActionCreators(userActions.checkAuthorization, dispatch)
+    checkAuthorization: bindActionCreators(authActions.checkAuthorization, dispatch)
   };
 };
 

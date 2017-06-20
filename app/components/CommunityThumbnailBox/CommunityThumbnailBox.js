@@ -5,12 +5,12 @@ import CommunityThumbnail from '../CommunityThumbnail';
 
 export default class CommunityThumbnailBox extends React.Component {
   componentDidMount() {
-    this.props.getCommunities(0);
+    this.props.getCommunities(0, 40);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isAuthorized !== nextProps.isAuthorized) {
-      this.props.getCommunities(0);
+      this.props.getCommunities(0, 40);
     }
   }
 

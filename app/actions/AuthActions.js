@@ -1,6 +1,5 @@
 import { reset, SubmissionError } from 'redux-form';
 
-import { getCookie } from '../utils/cookie';
 import * as actionTypes from '../constants/authConstants';
 import * as viewActions from './ViewActions';
 
@@ -9,13 +8,13 @@ export const logIn = (userCredentials) => {
     dispatch({
       type: actionTypes.LOG_IN_REQUEST
     });
-    let data = `username=${userCredentials.username}&password=${userCredentials.password}`;
+    const data = `username=${userCredentials.username}&password=${userCredentials.password}`;
     // build headers
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
     // build request
-    let request = new Request('/api/login', {
+    let request = new Request('/api/auth/login', {
       method: 'POST',
       body: data,
       headers: headers,
@@ -62,7 +61,7 @@ export const logOut = () => {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
     const request = new Request('/api/logout', {
       method: 'POST',
       headers: headers,

@@ -1,4 +1,3 @@
-import { getCookie } from '../utils/cookie';
 import * as constants from '../constants/messageConstants';
 
 export const getMessages = (channelId, page, limit) => {
@@ -9,7 +8,7 @@ export const getMessages = (channelId, page, limit) => {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
 
     const query = [
       `cid=${channelId}`,
@@ -75,7 +74,7 @@ export const sendMessage = (message) => {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
 
     const request = new Request('/api/messages', {
       method: 'POST',

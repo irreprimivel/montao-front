@@ -1,6 +1,6 @@
 import { reduxForm } from 'redux-form';
 
-import { getCookie } from '../utils/cookie';
+// import { getCookie } from '../utils/cookie';
 
 import AddCommunityForm from '../components/AddCommunityForm';
 
@@ -18,18 +18,23 @@ const validate = (values) => {
 };
 
 const asyncValidate = (values) => {
+  const query = [
+    `t=${values.title}`
+  ].join('&');
+
   const headers = new Headers();
   headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-  headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
-  const request = new Request('/api/communities/check_title', {
-    method: 'POST',
-    body: `communityTitle=${values.title}`,
+  // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+
+  const request = new Request(`/api/communities?${query}`, {
+    method: 'HEAD',
     headers: headers,
     credentials: 'same-origin'
   });
+
   return fetch(request)
     .then(response => {
-      if (response.status != 200) {
+      if (response.status !== 404) {
         const error = new Error(response.statusText);
         error.response = response;
         throw error;
@@ -41,6 +46,9 @@ const asyncValidate = (values) => {
       if (data === 'false') {
         throw { title: 'This title already exists' };
       }
+    })
+    .catch(error => {
+
     });
 };
 

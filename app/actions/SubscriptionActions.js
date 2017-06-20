@@ -1,4 +1,3 @@
-import { getCookie } from '../utils/cookie';
 import * as actionTypes from '../constants/subscriptionConstants';
 
 export const checkSubscription = (communityTitle) => {
@@ -9,7 +8,7 @@ export const checkSubscription = (communityTitle) => {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
 
     const request = new Request('/api/communities/check_subscription', {
       method: 'POST',
@@ -43,20 +42,23 @@ export const checkSubscription = (communityTitle) => {
   };
 };
 
-export const join = (communityTitle) => {
+export const join = (communityId) => {
   return dispatch => {
     dispatch({
       type: actionTypes.JOIN_REQUEST,
-      payload: communityTitle
+      payload: communityId
     });
+
+    const query = [
+      `cid=${communityId}`
+    ].join('&');
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
 
-    const request = new Request('/api/communities/join', {
+    const request = new Request(`/api/subscriptions?${query}`, {
       method: 'POST',
-      body: `communityTitle=${communityTitle}`,
       headers: headers,
       credentials: 'same-origin'
     });
@@ -85,20 +87,23 @@ export const join = (communityTitle) => {
   };
 };
 
-export const leave = (communityTitle) => {
+export const leave = (communityId) => {
   return dispatch => {
     dispatch({
       type: actionTypes.LEAVE_REQUEST,
-      payload: communityTitle
+      payload: communityId
     });
+
+    const query = [
+      `cid=${communityId}`
+    ].join('&');
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-    headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+    // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
 
-    const request = new Request('/api/communities/leave', {
-      method: 'POST',
-      body: `communityTitle=${communityTitle}`,
+    const request = new Request(`/api/subscriptions?${query}`, {
+      method: 'DELETE',
       headers: headers,
       credentials: 'same-origin'
     });

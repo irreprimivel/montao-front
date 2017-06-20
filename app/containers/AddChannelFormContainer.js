@@ -1,7 +1,5 @@
 import { reduxForm } from 'redux-form';
 
-import { getCookie } from '../utils/cookie';
-
 import AddChannelForm from '../components/AddChannelForm';
 
 const validate = (values) => {
@@ -20,7 +18,7 @@ const validate = (values) => {
 const asyncValidate = (values) => {
   const headers = new Headers();
   headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-  headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
+  // headers.append('X-XSRF-TOKEN', getCookie('XSRF-TOKEN'));
   const data = `channelTitle=${values.title}&communityTitle=${values.community}`;
   const request = new Request('/api/channels/check_title', {
     method: 'POST',

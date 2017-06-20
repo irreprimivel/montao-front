@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as websocketActions from '../actions/WebSocketActions';
 import * as viewAction from '../actions/ViewActions';
 import * as channelActions from '../actions/ChannelActions';
-import * as communityActions from '../actions/CommunityActions';
+import * as subscriptionActions from '../actions/SubscriptionActions';
 
 import Chat from '../components/Chat';
 
@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => {
       hide: bindActionCreators(viewAction.hideAddChannelDialog, dispatch),
       addChannel: bindActionCreators(channelActions.add, dispatch)
     },
-    checkSubscription: bindActionCreators(communityActions.checkSubscription, dispatch),
+    checkSubscription: bindActionCreators(subscriptionActions.checkSubscription, dispatch),
   };
 };
 

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as userActions from '../actions/UserActions';
 import * as viewActions from '../actions/ViewActions';
 import * as communityActions from '../actions/CommunityActions';
+import * as authActions from '../actions/AuthActions';
 
 import NavBar from '../components/NavBar';
 
@@ -28,19 +29,19 @@ const mapDispatchToProps = (dispatch) => {
     logInDialogActions: {
       show: bindActionCreators(viewActions.showLogInDialog, dispatch),
       hide: bindActionCreators(viewActions.hideLogInDialog, dispatch),
-      logIn: bindActionCreators(userActions.logIn, dispatch)
+      logIn: bindActionCreators(authActions.logIn, dispatch)
     },
     signUpDialogActions: {
       show: bindActionCreators(viewActions.showSignUpDialog, dispatch),
       hide: bindActionCreators(viewActions.hideSignUpDialog, dispatch),
-      signUp: bindActionCreators(userActions.addUser, dispatch)
+      signUp: bindActionCreators(userActions.add, dispatch)
     },
     addCommunityDialogActions: {
       show: bindActionCreators(viewActions.showAddCommunityDialog, dispatch),
       hide: bindActionCreators(viewActions.hideAddCommunityDialog, dispatch),
       addCommunity: bindActionCreators(communityActions.add, dispatch)
     },
-    logOut: bindActionCreators(userActions.logOut, dispatch)
+    logOut: bindActionCreators(authActions.logOut, dispatch)
   };
 };
 

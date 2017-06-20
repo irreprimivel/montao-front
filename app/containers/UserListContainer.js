@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getUsers } from '../actions/UserActions';
+import { getUsersByCommunity } from '../actions/UserActions';
 
 import UserList from '../components/UserList';
 
@@ -14,7 +14,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUsers: bindActionCreators(getUsers, dispatch)
+    getUsers: bindActionCreators(getUsersByCommunity, dispatch)
   };
 
 };

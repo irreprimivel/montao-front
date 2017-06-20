@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as communityActions from '../actions/CommunityActions';
+import * as subscriptionActions from '../actions/SubscriptionActions';
 
 import CommunityThumbnailBox from '../components/CommunityThumbnailBox';
 
@@ -15,8 +16,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCommunities: bindActionCreators(communityActions.getCommunities, dispatch),
-    join: bindActionCreators(communityActions.join, dispatch),
-    leave: bindActionCreators(communityActions.leave, dispatch)
+    join: bindActionCreators(subscriptionActions.join, dispatch),
+    leave: bindActionCreators(subscriptionActions.leave, dispatch)
   };
 };
 
